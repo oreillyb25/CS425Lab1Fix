@@ -23,8 +23,36 @@ def song():
     sleep(10)
     #checkpoint two
 def remote():
-    sock.sendall("a drive_straight(100)".encode())
     #checkpoint three
+    while(1):
+        direction = keyboard.read_key()
+        print(direction)
+        match direction:
+            case "w":
+                sock.sendall("a drive_direct(100,100)".encode())
+                print(sock.recv(128).decode())
+                sleep(2)
+            case "a":
+                #the turns currently don't work probably better to use spin_left and spin_right
+                sock.sendall("a drive_direct(0,100)".encode())
+                print(sock.recv(128).decode())
+                sleep(2)
+            case "d":
+                sock.sendall("a drive_direct(100,0)".encode())
+                print(sock.recv(128).decode())
+                sleep(2)
+            
+            case "s":
+                #the backward also doesn't work 
+                sock.sendall("a drive_straight(-100,-100)".encode())
+                print(sock.recv(128).decode())
+                sleep(2)
+        
+            case "q":
+                #exit the code by pressing q
+                break
+            case _:
+                sleep(2)
 
 sock = socket.create_connection( (IP_ADDRESS, CONTROLLER_PORT), TIMEOUT)
 
